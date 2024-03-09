@@ -191,12 +191,12 @@
         }
     
         function submitData(user,result,sticker,timestamp) {
-            var url = 'https://script.google.com/macros/s/AKfycbwdSCpwzegQhQ7QINjKV4pWMZ49GH_neNFA17tp752HT3EAo5h2qIguUlO0j9IQeRiC/exec';
+            var url = 'https://script.google.com/macros/s/AKfycbwcpf7mTRV94yktRwxJJui5O5DPe1vR45r7FkMKysEUzRsc4i9QJ2WgFp5lZd5gvjs/exec';
             var data = {
-                'user': name,
-                'result': result,
-                'sticker': sticker,
-                'timestamp': timestamp
+                "user": name,
+                "result": result,
+                "sticker": sticker,
+                "timestamp": timestamp
             };
 
             fetch(url, {
@@ -207,6 +207,7 @@
                     'Content-Type': 'application/json',
                 },
                 redirect: 'follow',
+                referrerPolicy: 'no-referrer',
                 body: JSON.stringify(data)
             })
             .then(response => console.log(response))
