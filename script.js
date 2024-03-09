@@ -127,11 +127,8 @@ function onSubmit() {
     }
 }
 
-window.onload = function(){ //HTML page onload function
-    //enable ability to click roll
-    document.body.addEventListener('click', onClick(), true); 
-    document.getElementById("submit").addEventListener('click',onSubmit(), false);
-    
+window.onload = function(){ //HTML page onload function     
+    document.getElementById("submit").addEventListener('click',onSubmit(), true);
+    document.body.addEventListener('click', showModal(), true); 
     showModal();
 };
-
