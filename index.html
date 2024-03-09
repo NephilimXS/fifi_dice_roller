@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Large 3D Dice Roll</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: green;
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            padding-top: 150px; /* Increased to push everything down */
+			font-family: 'Roboto', sans-serif;
+        }
+        .dice-container {
+            width: 400px;
+            height: 400px;
+            perspective: 4000px;
+            margin: 50px auto 0; /* Added top margin of 50px */
+        }
+        .dice {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s;
+        }
+        .dice div {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #ffa500, #ff4500);
+            border: 0px solid #000000;
+			border-radius: 40px;
+			overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 128px;
+            color: white;
+			box-shadow: inset 0px 0px 20px rgba(0, 0, 0, 0.75);
+        }
+        .front  { transform: translateZ(200px); }
+        .back   { transform: rotateX(180deg) translateZ(200px); }
+        .right  { transform: rotateY(90deg) translateZ(200px); }
+        .left   { transform: rotateY(-90deg) translateZ(200px); }
+        .top    { transform: rotateX(90deg) translateZ(200px); }
+        .bottom { background-image: url('https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_b4ca8f91f18946f5adda621451bfc7ed/animated/light/3.0'); transform: rotateX(-90deg) translateZ(200px); }
+		
+		.dice img {
+			z-index:1; position:absolute;
+		}
+		.dice h3 {
+			z-index:2;position:absolute;top:0;right:0;margin: 10px 20px 10px 10px;
+			text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.75);
+		}
+		
+    </style>
+</head>
+<body>
+    <div class="dice-container">
+        <div class="dice" id="dice">
+            <div class="front"><img src="https://cdn.discordapp.com/attachments/1180151305952579704/1215727101156663448/bongo.gif?ex=65fdcd18&is=65eb5818&hm=0b2af487da465880fc3de0b4a22e26413e21e459c587315b717e275c87f585ba&" width="350px" height="350px"><h3>1</h3></div>
+            <div class="back"><img src="https://cdn.discordapp.com/attachments/1180151305952579704/1215746320497774703/fifi_sit_flower_sticker_2024.png?ex=65fddefe&is=65eb69fe&hm=6e56e487e4f58c8ae8318f67d5e5427a23b36aa3b76c67cf70d6389fcfff4e7b&" width="350px" height="350px"><h3>2</h3></div>
+            <div class="right" style="justify-content:flex-start !important;"><img src="https://cdn.discordapp.com/attachments/1180151305952579704/1215748312037199952/sticker-sheet.webp?ex=65fde0d9&is=65eb6bd9&hm=bf1b0fb926f292d93aae887dd800d2d692604efb3f5228d6ef47cdb8a1afcf01&" width="350px" height="350px"><h3>3</h3></div>
+            <div class="left"><img src="https://cdn.discordapp.com/attachments/1180151305952579704/1215746854525075546/scuffed_dragon.jpg?ex=65fddf7d&is=65eb6a7d&hm=ab29eedc31ec8067a0531677b2ec8bce42ae1712a096dcb64b2e9e1319b14807&" width="350px" height="350px" style="border-radius:30px;"><h3>4</h3></div>
+            <div class="top"><img src="https://cdn.discordapp.com/attachments/1180151305952579704/1215727056986447912/hyper_fifiGoose.gif?ex=65fdcd0d&is=65eb580d&hm=9a50a12c3ac917f9e047045020a5d79b1884afbe21d6a7a787d8a4841e5cb059&" width="350px" height="350px"><h3>5</h3></div>
+            <div class="bottom"><img src="https://cdn.discordapp.com/attachments/1180151305952579704/1215747078916145172/fifi3.png?ex=65fddfb3&is=65eb6ab3&hm=aef8899dfb9d300f0dfc85e34664437112cd2242c40fb40b3deddaf19fefa9da&" width="350px" height="350px"><h3>6</h3></div>
+        </div>
+    </div>
+</br></br></br></br></br>
+    <div class="History" >
+        <table id="rollHistory">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Result</th>
+                <th>Sticker</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rows will be added here using JavaScript -->
+            </tbody>
+          </table>
+    </div>
+    <script>
+        //globals
+        const params = new URLSearchParams(window.location.search);
+        let stickers = {
+            "1": "<img src=\"https://cdn.discordapp.com/attachments/1180151305952579704/1215727101156663448/bongo.gif?ex=65fdcd18&is=65eb5818&hm=0b2af487da465880fc3de0b4a22e26413e21e459c587315b717e275c87f585ba&\" width=\"50px\" height=\"50px\">",
+            "2": "<img src=\"https://cdn.discordapp.com/attachments/1180151305952579704/1215747078916145172/fifi3.png?ex=65fddfb3&is=65eb6ab3&hm=aef8899dfb9d300f0dfc85e34664437112cd2242c40fb40b3deddaf19fefa9da&\" width=\"50px\" height=\"50px\">",
+            "3": "<img src=\"https://cdn.discordapp.com/attachments/1180151305952579704/1215748312037199952/sticker-sheet.webp?ex=65fde0d9&is=65eb6bd9&hm=bf1b0fb926f292d93aae887dd800d2d692604efb3f5228d6ef47cdb8a1afcf01&\" width=\"50px\" height=\"50px\">",
+            "4": "<img src=\"https://cdn.discordapp.com/attachments/1180151305952579704/1215746854525075546/scuffed_dragon.jpg?ex=65fddf7d&is=65eb6a7d&hm=ab29eedc31ec8067a0531677b2ec8bce42ae1712a096dcb64b2e9e1319b14807&\" width=\"50px\" height=\"50px\">",
+            "5": "<img src=\"https://cdn.discordapp.com/attachments/1180151305952579704/1215727056986447912/hyper_fifiGoose.gif?ex=65fdcd0d&is=65eb580d&hm=9a50a12c3ac917f9e047045020a5d79b1884afbe21d6a7a787d8a4841e5cb059&\" width=\"50px\" height=\"50px\">",
+            "6": "<img src=\"https://cdn.discordapp.com/attachments/1180151305952579704/1215746320497774703/fifi_sit_flower_sticker_2024.png?ex=65fddefe&is=65eb69fe&hm=6e56e487e4f58c8ae8318f67d5e5427a23b36aa3b76c67cf70d6389fcfff4e7b&\" width=\"50px\" height=\"50px\">",
+        }
+        
+        var user;
+        params.forEach((value, key)=>{
+            user = key = "user" ? value : null;
+        })
+
+        window.onload = function(){
+            loadEntries();
+            rollDice();
+        };
+        // window.onload = rollDice;
+        
+        // remove the // at the start of the next line to enable click to roll
+        document.body.addEventListener('click', rollDice, true); 
+
+        function rollDice() {
+            const result = Math.floor(Math.random() * 6) + 1;
+            const dice = document.getElementById("dice");
+
+            // Ensure at least one full rotation along both axes
+            let xEnd = 720 * (Math.floor(Math.random() * 2) + 1); // 1 or 2 rotations on X
+            let yEnd = 720 * (Math.floor(Math.random() * 2) + 1); // 1 or 2 rotations on Y
+
+            // Add additional rotation to align the result face up
+            switch (result) {
+                case 1:
+                    // No additional rotation needed for face 1
+                    break;
+                case 2:
+                    xEnd += 180; // Face 2 opposite to face 1
+                    break;
+                case 3:
+                    yEnd -= 90; // Face 3 is 90 degrees from face 1
+                    break;
+                case 4:
+                    yEnd += 90; // Face 4 is -90 degrees from face 1
+                    break;
+                case 5:
+                    xEnd -= 90; // Face 5 is 90 degrees on X from face 1
+                    break;
+                case 6:
+                    xEnd += 90; // Face 6 is -90 degrees on X from face 1
+                    break;
+            }
+
+            dice.style.transform = `rotateX(${xEnd}deg) rotateY(${yEnd}deg)`;
+            addRow(user, result, getCurrentTimestamp());           
+            // Saving data to Local Storage
+            saveEntryToLocalStorage(user, result, getCurrentTimestamp());
+
+        }
+        
+        function addRow(user, result, timestamp) {
+            // Get the table's tbody element by its ID
+            var table = document.getElementById("rollHistory").getElementsByTagName('tbody')[0];
+            
+            // Insert a row at the end of the table
+            var newRow = table.insertRow(-1);
+
+            // Insert a cell in the row at index 0 and 1
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+
+            // Add some text to the new cells
+            cell1.innerHTML = user;
+            cell2.innerHTML = result;
+            cell3.innerHTML = stickers[result];
+            cell4.innerHTML = timestamp;
+
+        }
+
+        function getCurrentTimestamp() {
+            const now = new Date();
+
+            // Get date components
+            const month = now.getMonth() + 1; // getMonth() returns 0-11
+            const day = now.getDate();
+            const year = now.getFullYear();
+
+            // Get time components
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+
+            // Format the components to ensure two digits where necessary
+            const formattedDate = `${month}/${day}/${year}`;
+            const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Combine and return the date and time in the desired format
+            return `${formattedDate} ${formattedTime}`;
+        }
+    
+        function saveEntryToLocalStorage(user, result, timestamp) {
+            let entries = JSON.parse(localStorage.getItem('tableEntries')) || [];
+            entries.push({ user, result, timestamp });
+            localStorage.setItem('tableEntries', JSON.stringify(entries));
+        }
+
+        function loadEntries() {
+            const entries = JSON.parse(localStorage.getItem('tableEntries')) || [];
+            entries.forEach(entry => {
+                console.log(entry);
+                addRow(entry.user, entry.result, entry.timestamp);
+            });
+        }
+
+        function scanFiles() {
+            document.getElementById('fileInput').addEventListener('change', function(event) {
+            var fileList = event.target.files; // This is a FileList object
+            if (fileList.length > 0) {
+                var fileName = fileList[0].name; // Get the name of the first file
+                console.log("The selected file's name is: " + fileName);
+            }
+            });
+        }
+
+        document.body.addEventListener('click', rollDice, true); 
+    </script>
+</body>
+</html>
