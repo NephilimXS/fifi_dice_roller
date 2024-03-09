@@ -106,7 +106,6 @@
             loadEntries();
             rollDice();
         };
-        // window.onload = rollDice;
         
         // remove the // at the start of the next line to enable click to roll
         document.body.addEventListener('click', rollDice, true); 
@@ -142,32 +141,34 @@
             }
 
             dice.style.transform = `rotateX(${xEnd}deg) rotateY(${yEnd}deg)`;
-            addRow(user, result, getCurrentTimestamp());           
+
+            submitData(user,result,stickers[result],getCurrentTimestamp());
+            // addRow(user, result, getCurrentTimestamp());           
             // Saving data to Local Storage
-            saveEntryToLocalStorage(user, result, getCurrentTimestamp());
+            // saveEntryToLocalStorage(user, result, getCurrentTimestamp());
 
         }
         
-        function addRow(user, result, timestamp) {
-            // Get the table's tbody element by its ID
-            var table = document.getElementById("rollHistory").getElementsByTagName('tbody')[0];
+        // function addRow(user, result, timestamp) {
+        //     // Get the table's tbody element by its ID
+        //     var table = document.getElementById("rollHistory").getElementsByTagName('tbody')[0];
             
-            // Insert a row at the end of the table
-            var newRow = table.insertRow(-1);
+        //     // Insert a row at the end of the table
+        //     var newRow = table.insertRow(-1);
 
-            // Insert a cell in the row at index 0 and 1
-            var cell1 = newRow.insertCell(0);
-            var cell2 = newRow.insertCell(1);
-            var cell3 = newRow.insertCell(2);
-            var cell4 = newRow.insertCell(3);
+        //     // Insert a cell in the row at index 0 and 1
+        //     var cell1 = newRow.insertCell(0);
+        //     var cell2 = newRow.insertCell(1);
+        //     var cell3 = newRow.insertCell(2);
+        //     var cell4 = newRow.insertCell(3);
 
-            // Add some text to the new cells
-            cell1.innerHTML = user;
-            cell2.innerHTML = result;
-            cell3.innerHTML = stickers[result];
-            cell4.innerHTML = timestamp;
+        //     // Add some text to the new cells
+        //     cell1.innerHTML = user;
+        //     cell2.innerHTML = result;
+        //     cell3.innerHTML = stickers[result];
+        //     cell4.innerHTML = timestamp;
 
-        }
+        // }
 
         function getCurrentTimestamp() {
             const now = new Date();
@@ -190,31 +191,29 @@
             return `${formattedDate} ${formattedTime}`;
         }
     
-        function saveEntryToLocalStorage(user, result, timestamp) {
-            let entries = JSON.parse(localStorage.getItem('tableEntries')) || [];
-            entries.push({ user, result, timestamp });
-            localStorage.setItem('tableEntries', JSON.stringify(entries));
+        function submitData(user,result,sticker,timestamp) {
+            var url = 'https://script.google.com/macros/s/AKfycbzRmiau1N-m16uXr5S5ljTll28PlFvm-qLM1R9AEXL5H2VPIJYPSMmO2y3EMJgvbJo/exec';
+            var data = {
+                'user': name,
+                'result': email,
+                'sticker': sticker,
+                'timestamp': timestamp
+            };
+
+            fetch(url, {
+                method: 'POST',
+                mode: 'no-cors', // Important to avoid CORS issues
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                redirect: 'follow',
+                body: JSON.stringify(data)
+            })
+            .then(response => console.log(response))
+            .catch(error => console.error('Error:', error));
         }
 
-        function loadEntries() {
-            const entries = JSON.parse(localStorage.getItem('tableEntries')) || [];
-            entries.forEach(entry => {
-                console.log(entry);
-                addRow(entry.user, entry.result, entry.timestamp);
-            });
-        }
-
-        function scanFiles() {
-            document.getElementById('fileInput').addEventListener('change', function(event) {
-            var fileList = event.target.files; // This is a FileList object
-            if (fileList.length > 0) {
-                var fileName = fileList[0].name; // Get the name of the first file
-                console.log("The selected file's name is: " + fileName);
-            }
-            });
-        }
-
-	//test
         document.body.addEventListener('click', rollDice, true); 
     </script>
 </body>
