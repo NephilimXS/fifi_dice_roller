@@ -77,11 +77,15 @@ function submitData(user,result,sticker,timestamp) {
 /** MODAL / POP UP Functions ************************************************************/
 //function to show popup
 function showModal() {
-    document.getElementById("userNameModal").style.display = "block";
+    document.getElementById("submit").addEventListener('click',onSubmit, false);
+    document.body.removeEventListener('click',onClick,false);    
+    document.getElementById("userNameModal").style.display = "block";    
 }
 
 function closeModal() {
-    document.getElementById("userNameModal").style.display = "none";
+    document.getElementById("submit").removeEventListener('click',onSubmit, false);
+    document.body.addEventListener('click',onClick, false);    
+    document.getElementById("userNameModal").style.display = "none";    
 }
 
 //handle modal submit
@@ -108,7 +112,7 @@ function setUserName(userName){
     user = userName;
 }
 /** EVENT HANDLERS ************************************************************************/
-function onClick() { //body click event handler
+function onClick() { //body click event handler    
     showModal();
 }
 
@@ -127,8 +131,6 @@ function onSubmit() {
     }
 }
 
-window.onload = function(){ //HTML page onload function     
-    document.getElementById("submit").addEventListener('click',onSubmit(), true);
-    document.body.addEventListener('click', showModal(), true); 
-    showModal();
+window.onload = function() { //HTML page onload function     
+    showModal();        
 };
