@@ -6,7 +6,8 @@ var user; //placeholder
 let stickers = {
     "1": "https://cdn.discordapp.com/attachments/1180151305952579704/1215727101156663448/bongo.gif?ex=65fdcd18&is=65eb5818&hm=0b2af487da465880fc3de0b4a22e26413e21e459c587315b717e275c87f585ba&",
     "2": "https://cdn.discordapp.com/attachments/1180151305952579704/1215747078916145172/fifi3.png?ex=65fddfb3&is=65eb6ab3&hm=aef8899dfb9d300f0dfc85e34664437112cd2242c40fb40b3deddaf19fefa9da&",
-    "3": "https://cdn.discordapp.com/attachments/1180151305952579704/1215748312037199952/sticker-sheet.webp?ex=65fde0d9&is=65eb6bd9&hm=bf1b0fb926f292d93aae887dd800d2d692604efb3f5228d6ef47cdb8a1afcf01&",
+  //  "3": "https://cdn.discordapp.com/attachments/1180151305952579704/1215748312037199952/sticker-sheet.webp?ex=65fde0d9&is=65eb6bd9&hm=bf1b0fb926f292d93aae887dd800d2d692604efb3f5228d6ef47cdb8a1afcf01&",
+     "3": "https://cdn.discordapp.com/attachments/1180151305952579704/1215747078916145172/fifi3.png?ex=65fddfb3&is=65eb6ab3&hm=aef8899dfb9d300f0dfc85e34664437112cd2242c40fb40b3deddaf19fefa9da&",
     "4": "https://cdn.discordapp.com/attachments/1180151305952579704/1215746854525075546/scuffed_dragon.jpg?ex=65fddf7d&is=65eb6a7d&hm=ab29eedc31ec8067a0531677b2ec8bce42ae1712a096dcb64b2e9e1319b14807&",
     "5": "https://cdn.discordapp.com/attachments/1215474093701341314/1215824523434135603/subathon_2024_sticker.png?ex=65fe27d3&is=65ebb2d3&hm=43d04481c7d38913987286ec6fe9fc0cec3d638e7b7aa361f6ae3ca9cb3694b7&",
     "6": "https://cdn.discordapp.com/attachments/1180151305952579704/1215746320497774703/fifi_sit_flower_sticker_2024.png?ex=65fddefe&is=65eb69fe&hm=6e56e487e4f58c8ae8318f67d5e5427a23b36aa3b76c67cf70d6389fcfff4e7b&" 
